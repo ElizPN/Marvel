@@ -8,9 +8,14 @@
           placeholder="Поиск..."
           aria-label="Search"
           class="form-control me-2"
+          v-model="search"
+          @input="changeSearch(search)"
         />
-        <button type="reset" class="btn btn-outline-light">
-          все
+        <button type="reset" 
+        class="btn btn-outline-light"
+         @click="()=>{search =''; changeSearch(search)}"
+        
+        >все
         </button>
       </form>
     </div>
@@ -20,8 +25,11 @@
 <script>
 export default {
   name: "AppHeader",
+  props: ["changeSearch"],
   data() {
-    return {};
+    return {
+      search: "",
+    };
   },
 };
 </script>

@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <app-header />
+    <app-header :changeSearch="changeSearch"/>
 
     <div class="container">
       <h1 class="pt-3 pb-3">Персонажи Marvel</h1>
 
-
+        <!-- <pre>  searchCharacters : {{ searchCharacters }}</pre> -->
+            <pre>search: {{search}}</pre>
         <!-- <pre>characterIndex:{{characterIndex}}</pre> -->
       <!-- <pre>characters: {{ characters }} </pre> -->
     <!-- <pre>person: {{person}}</pre> -->
@@ -15,9 +16,10 @@
       <spinner v-if="loading"/>
 
     <div class="row">
+        <h5 v-if="!searchCharacters.length && !loading ">Nothing found...</h5>
 
         <div 
-            v-for="(el, idx) in characters"
+            v-for="(el, idx) in searchCharacters"
             :key="idx"
             class="card mb-3 col-sm-12 col-md-6 col-lg-4">
             <div class="row g-0">
@@ -66,6 +68,7 @@ export default {
       loading: false,
       characters: [],
       characterIndex: 0,
+      search: '',
     };
   },
   methods: {
@@ -74,11 +77,23 @@ export default {
         .then((res) => res.json())
         .then((json) => (this.characters = json));
     },
+    changeSearch: function (value) {
+        this.search = value;
+    }
+
   },
   computed: {
       person: function () {
           return this.characters[this.characterIndex] || null
-      }
+      },
+      searchCharacters : function() {
+          const {characters, search} = this
+          return characters.filter((person) => {
+              return person.name.toLowerCase()
+              .indexOf(search.toLowerCase()) !== -1
+          })
+          
+      },
   },
   async mounted() {
     this.loading = true;
