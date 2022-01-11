@@ -57,7 +57,7 @@ import AppModal from "./components/AppModal";
 import AppHeader from "./components/AppHeader";
 
 export default {
-  name: "App",
+  
   components: {
     AppHeader,
     AppModal,
